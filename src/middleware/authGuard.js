@@ -26,9 +26,19 @@ export const authGuard = (req, res, next) => {
     return res.status(401).json({ message: "Token inválido o expirado" });
   }
 };
-export const validateRegister = [
+export const validateEmail = [
   body("email").isEmail().withMessage("Email inválido"),
+];
+
+export const validatePassword = [
   body("password").isLength({ min: 6 }).withMessage("Mínimo 6 caracteres"),
+];
+
+export const validateChangePassword = [
+  body("currentPassword")
+    .isLength({ min: 6 })
+    .withMessage("Mínimo 6 caracteres"),
+  body("newPassword").isLength({ min: 6 }).withMessage("Mínimo 6 caracteres"),
 ];
 
 export const validateResults = (req, res, next) => {

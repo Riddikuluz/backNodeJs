@@ -60,3 +60,21 @@ export const changePassword = async (req, res) => {
 
   res.json({ message: "Contraseña actualizada correctamente" });
 };
+
+export const createUser = async (req, res) => {
+  try {
+    const { email, password, role } = req.body;
+    const exists = await User.findOne({ email });
+    if (exists) {
+      return res.status(400).json({ message: "El correo ya está registrado" });
+    }
+
+    const user = await User.create({ email, password, role });
+
+    const userData = { id: user._id, email: user.email, role: role };
+
+    return res.status(201).json({ user: userData });
+  } catch (error) {
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};

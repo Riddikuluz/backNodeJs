@@ -2,14 +2,21 @@ import { Router } from "express";
 import { login, register, assignRole } from "../controllers/authController.js";
 import {
   authGuard,
-  validateRegister,
+  validateEmail,
+  validatePassword,
   validateResults,
   roleGuard,
 } from "../middleware/authGuard.js";
 
 const router = Router();
 
-router.post("/register", validateRegister, validateResults, register);
+router.post(
+  "/register",
+  validateEmail,
+  validatePassword,
+  validateResults,
+  register
+);
 
 router.post("/login", login);
 
