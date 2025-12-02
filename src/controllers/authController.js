@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
+    const role = "user";
     const exists = await User.findOne({ email });
     if (exists) {
       return res.status(400).json({ message: "El correo ya está registrado" });
