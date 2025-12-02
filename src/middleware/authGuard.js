@@ -20,6 +20,7 @@ export const authGuard = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token inválido o expirado" });
@@ -41,3 +42,11 @@ export const validateResults = (req, res, next) => {
 
   next();
 };
+export const roleGuard =
+  (role = []) =>
+  (req, res, next) => {
+    if (!role.includes(req.user.role)) {
+      return res.status(403).json({ message: "Permiso denegado" });
+    }
+    next();
+  };
