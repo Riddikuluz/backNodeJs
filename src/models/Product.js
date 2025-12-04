@@ -24,11 +24,11 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["ropa", "juguetes", "higiene", "alimentación", "otros"], // modificable
+      enum: ["ropa", "juguetes", "higiene", "alimentación", "otros"],
       default: "otros",
     },
     images: {
-      type: [String], // URLs
+      type: [String],
       default: [],
     },
     status: {
