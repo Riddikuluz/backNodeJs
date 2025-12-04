@@ -17,6 +17,7 @@ import {
 const router = Router();
 
 router.get("/", getAllProducts);
+
 router.get("/:id", getProductById);
 
 router.post(
@@ -26,6 +27,7 @@ router.post(
   validateProduct,
   createProduct
 );
+
 router.put(
   "/:id",
   authGuard,
@@ -33,8 +35,10 @@ router.put(
   validateProductUpdate,
   updateProduct
 );
+
 router.delete("/:id", authGuard, roleGuard(["admin"]), deleteProduct);
-router.delete(
+
+router.put(
   "/deactivate/:id",
   authGuard,
   roleGuard(["admin"]),
