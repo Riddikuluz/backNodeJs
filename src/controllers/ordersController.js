@@ -78,8 +78,8 @@ export const getOrderById = async (req, res) => {
 
   if (!order) return res.status(404).json({ message: "Orden no encontrada" });
 
-  if (order.user.toString() !== userId && req.user.role !== "admin") {
-    return res.status(403).json({ message: "Acceso denegado" });
+  if (req.user.role !== "admin" && order.user.toString() !== userId) {
+    return res.status(403).json({ message: "No tienes acceso a esta orden" });
   }
 
   res.json(order);

@@ -8,13 +8,15 @@ import {
 
 import { authGuard } from "../middleware/authGuard.js";
 
+import { validateObjectId } from "../middleware/validateObjectId.js";
+
 const router = Router();
 
 router.get("/", authGuard, getMyCart);
 
-router.post("/:productId", authGuard, addOrUpdateItem);
+router.post("/:productId", authGuard, validateObjectId, addOrUpdateItem);
 
-router.delete("/:productId", authGuard, removeItem);
+router.delete("/:productId", authGuard, validateObjectId, removeItem);
 
 router.delete("/", authGuard, clearCart);
 

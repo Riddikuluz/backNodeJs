@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateResults,
   roleGuard,
+  loginLimiter,
 } from "../middleware/authGuard.js";
 
 const router = Router();
@@ -18,7 +19,7 @@ router.post(
   register
 );
 
-router.post("/login", login);
+router.post("/login", loginLimiter, login);
 
 router.get("/protected", authGuard, (req, res) => {
   res.json({

@@ -17,6 +17,8 @@ import {
   validateResults,
 } from "../middleware/authGuard.js";
 
+import { validateObjectId } from "../middleware/validateObjectId.js";
+
 const router = Router();
 
 router.get("/", authGuard, roleGuard(["admin"]), getAllUsers);
@@ -25,19 +27,31 @@ router.get(
   "/:id",
   authGuard,
   roleGuard(["admin", "user"]),
-  validateEmail,
-  validateResults,
+  validateObjectId,
   getUserById
 );
 
-router.put("/:id", authGuard, roleGuard(["admin", "user"]), updateUser);
+router.put(
+  "/:id",
+  authGuard,
+  roleGuard(["admin", "user"]),
+  validateObjectId,
+  updateUser
+);
 
-router.delete("/:id", authGuard, roleGuard(["admin"]), deleteUser);
+router.delete(
+  "/:id",
+  authGuard,
+  roleGuard(["admin"]),
+  validateObjectId,
+  deleteUser
+);
 
 router.put(
   "/:id/password",
   authGuard,
   roleGuard(["admin", "user"]),
+  validateObjectId,
   validateChangePassword,
   validateResults,
   changePassword
