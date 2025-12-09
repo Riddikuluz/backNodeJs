@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import rateLimit from "express-rate-limit";
 import { body } from "express-validator";
 import { validationResult } from "express-validator";
 
@@ -53,10 +54,16 @@ export const validateResults = (req, res, next) => {
   next();
 };
 export const roleGuard =
-  (role = []) =>
+  (roles = []) =>
   (req, res, next) => {
-    if (!role.includes(req.user.role)) {
+    if (!roles.includes(req.user.role)) {
       return res.status(403).json({ message: "Permiso denegado" });
     }
     next();
   };
+
+export const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: "Demasiados intentos. Intenta más tarde.",
+});

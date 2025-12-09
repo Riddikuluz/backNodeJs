@@ -14,11 +14,13 @@ import {
   validateProductUpdate,
 } from "../middleware/productGuard.js";
 
+import { validateObjectId } from "../middleware/validateObjectId.js";
+
 const router = Router();
 
 router.get("/", getAllProducts);
 
-router.get("/:id", getProductById);
+router.get("/:id", validateObjectId, getProductById);
 
 router.post(
   "/",
@@ -32,16 +34,24 @@ router.put(
   "/:id",
   authGuard,
   roleGuard(["admin"]),
+  validateObjectId,
   validateProductUpdate,
   updateProduct
 );
 
-router.delete("/:id", authGuard, roleGuard(["admin"]), deleteProduct);
+router.delete(
+  "/:id",
+  authGuard,
+  roleGuard(["admin"]),
+  validateObjectId,
+  deleteProduct
+);
 
 router.put(
   "/deactivate/:id",
   authGuard,
   roleGuard(["admin"]),
+  validateObjectId,
   deactivateProduct
 );
 
