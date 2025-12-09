@@ -26,13 +26,20 @@ const app = express();
 app.use(express.json({ limit: "10kb" }));
 app.use(sanitizeBody);
 app.use(sanitizeXSS);
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: false,
+  })
+);
 app.use(cors(corsOptions));
 app.use(apiLimiter);
 app.use(hpp());
 if (logLevel !== "none") {
   app.use(morgan(logLevel));
 }
+app.disable("x-powered-by");
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
