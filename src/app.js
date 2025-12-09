@@ -4,6 +4,7 @@ import helmet from "helmet";
 import hpp from "hpp";
 import morgan from "morgan";
 import cors from "cors";
+import xss from "xss";
 
 import authRoutes from "./routes/authRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
@@ -11,7 +12,8 @@ import productsRoutes from "./routes/productsRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
-import { sanitizeBody } from "./middleware/sanitize.js";
+import { sanitizeBody } from "./middleware/sanitizeMongo.js";
+import { sanitizeXSS } from "./middleware/sanitizeXSS.js";
 import { corsOptions } from "./config/corsOptions.js";
 import { apiLimiter } from "./config/rateLimit.js";
 import { connectDB } from "./config/db.js";
@@ -23,6 +25,7 @@ const app = express();
 
 app.use(express.json({ limit: "10kb" }));
 app.use(sanitizeBody);
+app.use(sanitizeXSS);
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(apiLimiter);
