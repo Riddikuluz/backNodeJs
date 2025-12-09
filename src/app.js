@@ -4,7 +4,6 @@ import helmet from "helmet";
 import hpp from "hpp";
 import morgan from "morgan";
 import cors from "cors";
-import xss from "xss";
 
 import authRoutes from "./routes/authRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
@@ -18,6 +17,8 @@ import { corsOptions } from "./config/corsOptions.js";
 import { apiLimiter } from "./config/rateLimit.js";
 import { connectDB } from "./config/db.js";
 import { logLevel } from "./config/logLevel.js";
+import { swaggerDocs } from "./config/swagger.js";
+
 dotenv.config();
 connectDB();
 
@@ -45,6 +46,8 @@ app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
+
+swaggerDocs(app);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Ruta no encontrada" });
